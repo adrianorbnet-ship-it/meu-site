@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Site</title>
+  <style>
+   
+
+.container {
+  max-width: 600px;  /* largura máxima do conteúdo */
+  margin: 0 auto;    /* centraliza horizontalmente */
+  padding: 0 20px;   /* distância interna esquerda e direita, opcional */
+}
+
+
+/* Media query para celular */
+@media screen and (max-width: 768px) {
+  .container {
+    width: 95%;       /* ocupa quase toda a tela */
+    margin: 10px auto; /* reduz a margem */
+    font-size: 14px;  /* diminui o tamanho do texto */
+  }
+}
+
+.container {
+  display: flex;             /* ativa o Flexbox */
+  flex-direction: row;       /* elementos lado a lado */
+  flex-wrap: wrap;           /* permite quebrar linha se necessário */
+  gap: 20px;                 /* espaço entre os elementos */
+  width: 80%;                /* largura do container */
+  margin: 20px auto;         /* centraliza */
+  font-size: 18px;           /* tamanho da fonte */
+}
+
+/* Estilo dos blocos dentro do container */
+.container > div {
+  flex: 1;                   /* cada bloco ocupa espaço igual */
+  min-width: 200px;           /* largura mínima */
+  padding: 10px;
+  background-color: #f0f0f0;
+  text-align: center;
+  border-radius: 8px;
+}
+
+/* Media query para celulares */
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;  /* elementos empilham verticalmente */
+    gap: 10px;               /* reduz o espaçamento */
+    width: 95%;              /* quase toda a largura da tela */
+    margin: 10px auto;
+    font-size: 14px;         /* diminui o texto */
+  }
+
+  .container > div {
+    min-width: 100%;         /* cada bloco ocupa toda a largura */
+  }
+}
+
+
+body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #2c3e50;
+      color: #f4f4f4;
+      padding: 30px 0;
+      text-align: center;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+    nav ul li {
+      margin: 0 15px;
+    }
+    nav {
+      background-color: #34495e;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: white;
+      padding: 12px 15px;
+      text-decoration: none;
+      text-align: center;
+    }
+    nav a:hover {
+      background-color: #1abc9c;
+    }
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+    main {
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bem-vindo ao meu site</h1>
+    <nav>
+      <ul>
+      <li><a href="index.html">Início</a></li>
+        <li><a href="arqueologia.html">Arqueologia Bíblica</a></li>
+        <li><a href="MitoseFakes.html">Mitos e Fakes</a></li>
+         <li><a href="AstronomiaBiblica.html">Astronomia Bíblica</a></li>
+         <li><a href="Contato.html">Contato</a></li>
+   
+        <!-- você pode adicionar mais itens -->
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Página inicial</h2>
+    <p>Escolha uma seção do menu acima.</p>
+  </main>
+</body>
+</html>
+
+
+
+</head>
+<body>
+ 
+  
+
+ <div class="container">
+    <h1>Seção de Contato</h1>
+
+ <h3>Contato</h3>
+
+  
+
+
+</div>
+
+
+
+  <p><a href="index.html">Voltar para o início</a></p>
+</body>
+</html>
