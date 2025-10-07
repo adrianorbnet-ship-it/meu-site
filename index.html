@@ -81,6 +81,21 @@
   <header>
     <h1>Fatos ou Fakes Bíblicos</h1>
     <p>Separando mitos, lendas e fatos históricos</p>
+ 
+  
+ <style>
+    /* Exemplo de posicionamentos */
+    #data {
+      position: absolute; /* permite escolher a posição exata */
+      top: 20px;   /* distância do topo */
+      right: 40px; /* distância da direita */
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+    }
+  </style>
+  
+  
   </header>
 
   <nav>
@@ -93,10 +108,31 @@
   </nav>
 
   <img src="capasite.png" alt="Bem-vindo" class="livro">
+  <!-- A data vai aparecer aqui -->
+  <div id="data"></div>
 
+  <script>
+    // Função para formatar o mês e o ano
+    function mostrarData() {
+      const dataAtual = new Date();
+      const opcoes = { year: 'numeric', month: 'long' };
+      const mesEAno = dataAtual.toLocaleDateString('pt-BR', opcoes);
+      
+      // Exibe o mês e ano na div com id "data"
+      document.getElementById('data').innerHTML = mesEAno;
+    }
+
+    // Chama a função ao carregar
+    mostrarData();
+  </script>
+
+
+  
+  
   <footer>
     <p>&copy; 2025 Fatos ou Fakes Bíblicos. Todos os direitos reservados.</p>
   </footer>
 
 </body>
 </html>
+
