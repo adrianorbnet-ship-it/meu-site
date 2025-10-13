@@ -1,0 +1,17 @@
+[
+  {
+    "pagina": "pagina1.html",
+    "titulo": "Página 1",
+    "conteudo": "Este é o conteúdo da primeira página. Aqui falamos sobre exemplo e teste."
+  },
+  {
+    "pagina": "pagina2.html",
+    "titulo": "Página 2",
+    "conteudo": "Conteúdo da segunda página. Falamos de HTML, CSS e JavaScript."
+  },
+  {
+    "pagina": "pagina3.html",
+    "titulo": "Página 3",
+    "conteudo": "Terceira página com textos para teste de busca. Pode digitar qualquer palavra."
+  }
+]
