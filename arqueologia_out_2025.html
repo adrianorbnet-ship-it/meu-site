@@ -5,7 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fatos ou Fakes Bíblicos</title>
   <style>
-    body {
+   
+/* Estilo geral para todos os botões da página */
+button {
+  font-size: 20px;           /* texto maior para fácil leitura */
+  padding: 15px 25px;        /* área de toque maior */
+  margin: 10px 5px;          /* espaço entre os botões */
+  border-radius: 12px;       /* cantos arredondados */
+  border: none;              /* sem borda padrão */
+  background-color: #1574d3; /* cor azul agradável */
+  color: white;              /* texto branco */
+  cursor: pointer;           /* muda cursor ao passar */
+  transition: background 0.3s, transform 0.2s; /* animação suave */
+}
+
+/* Efeito ao passar o dedo / mouse */
+button:hover {
+  background-color: #0f5ca0; /* azul mais escuro */
+  transform: scale(1.05);    /* leve aumento visual */
+}
+
+/* Efeito ao pressionar o botão */
+button:active {
+  background-color: #0a3d70;
+  transform: scale(0.98);    /* efeito de “aperto” */
+}
+
+/* Ajuste para telas pequenas (mobile) */
+@media (max-width: 600px) {
+  button {
+    font-size: 18px;
+    padding: 18px 25px;      /* botões ainda maiores para toque */
+    width: 90%;              /* ocupa quase toda a largura da tela */
+    display: block;           /* cada botão em linha separada */
+    margin: 10px auto;        /* centraliza na tela */
+  }
+}
+
+
+
+
+
+ body {
       font-family: Arial, sans-serif;
       margin: 0;
       background-image: url("textura-bege.png");
@@ -99,6 +140,18 @@
       font-size: 16px; /* celular */
     }
 
+
+  /*aqui será adaptado botao do player para celular */
+
+button {     
+    font-size: 18px;
+    padding: 12px 20px;
+    margin: 5px;
+    border-radius: 8px;
+  }
+
+</style>
+
 </style>
 
 <!-- Área Principal -->
@@ -117,16 +170,46 @@
     <a href="contato.html">Contato</a>
   </nav>
 
-  <div class="container">
+<!-- Botões de controle -->
+<button onclick="lerTexto()">▶️ Ler texto</button>
+<button onclick="pararLeitura()">⏹️ Parar</button>
+
+<script>
+let msg; // variável global para controlar a fala
+
+function lerTexto() {
+  // Pega todo o texto da div .container
+  let texto = document.querySelector(".container").innerText;
+
+  // Substitui ":" por " vírgula " para que o TTS não leia como hora
+
+texto = texto.replace(/(\d+):(\d+)/g, "$1 $2");
+  
+
+
+// Cria a mensagem de voz
+  msg = new SpeechSynthesisUtterance(texto);
+  msg.lang = "pt-BR";
+  msg.rate = 1; // velocidade normal
+  msg.pitch = 1;
+
+  // Fala o texto
+  window.speechSynthesis.speak(msg);
+}
+
+function pararLeitura() {
+  // Para a fala imediatamente
+  window.speechSynthesis.cancel();
+}
+</script>
+
+<div class="container">
     <section id="home">
       <h2>Arqueologia Bíblica</h2>
       <p>A arqueologia bíblica estuda os vestígios materiais
  (objetos, construções, inscrições, restos de cidades, utensílios, ossadas etc.)
  relacionados aos povos, culturas e lugares mencionados na Bíblia.</p>
    
-
-
-
 <!--novo arquivo-->
 <h1>A Capa de Elias: Onde Está e o Que Foi Feito com Ela?</h1>
 <p>
