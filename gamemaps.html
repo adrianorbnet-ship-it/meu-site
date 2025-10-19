@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Caça às Ruínas com Som</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  body { margin:0; padding:0; font-family: Arial; background:#ecf0f1; }
+
+  /* TELA DE INSTRUÇÕES */
+  #tela-inicial {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(44, 62, 80, 0.97);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+    z-index: 2000;
+  }
+
+  #tela-inicial h1 { font-size: 2.5em; margin-bottom: 20px; }
+  #tela-inicial p { font-size: 1.2em; max-width: 700px; line-height: 1.6; margin-bottom: 25px; }
+
+  #tela-inicial button {
+    background: #27ae60;
+    font-size: 1.3em;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  #tela-inicial button:hover { background: #2ecc71; }
+
+  /* BARRA SUPERIOR */
+  #info-bar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    background: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    z-index: 1001;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.3s ease;
+  }
+
+  .info-item { margin: 5px 15px; flex-grow: 1; }
+  #dica-texto { font-size: 1.3em; font-weight: bold; }
+  #tempo { font-size: 1.4em; font-weight: bold; background: #34495e; padding: 5px 12px; border-radius: 8px; }
+  #pontos, #recorde { font-size: 1.4em; font-weight: bold; background: #34495e; padding: 5px 10px; border-radius: 8px; }
+
+  button {
+    font-size: 1.1em;
+    padding: 8px 15px;
+    cursor:pointer;
+    background:#3498db;
+    color:white;
+    border:none;
+    border-radius:6px;
+    transition: background 0.3s;
+    margin-left: 5px;
+  }
+  button:hover { background:#2980b9; }
+
+  /* MAPA */
+  #map { height: 600px; width: 100%; margin-top: 85px; }
+
+  .etiqueta {
+    background: rgba(255,255,255,0.85);
+    padding: 3px 6px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    font-size: 13px;
+    font-weight: bold;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="info-bar">
+  <div class="info-item"><strong>Dica:</strong> <span id="dica-texto">Clique em "Iniciar Jogo"</span></div>
+  <div class="info-item"><strong>Tempo:</strong> <span id="tempo">30s</span></div>
+  <div class="info-item"><strong>Pontos:</strong> <span id="pontos">0</span></div>
+  <div class="info-item"><strong>Recorde:</strong> <span id="recorde">0</span></div>
+
+  <div class="info-item" style="text-align:right;">
+    <button onclick="reiniciarJogo()">🔄 Reiniciar</button>
+    <button onclick="zerarRecorde()">🧹 Zerar Recorde</button>
+    <button onclick="voltarPagina()">⬅️ Voltar</button>
+  </div>
+</div>
+
+<div id="map"></div>
+
+<!-- Sons -->
+<audio id="bip-som" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+<audio id="tempo-fim-som" src="audiogameover.mp3"></audio>
+<audio id="vitoria-som" src="audiovitoria.mp3"></audio>
+
+<!-- TELA INICIAL -->
+<div id="tela-inicial">
+  <h1>🗺️ Jogo Bíblico: Caça às Ruínas</h1>
+  <p>
+    Encontre no mapa os lugares históricos da Bíblia, usando as <strong>dicas</strong> no topo.  
+    ⏱️ Você tem <strong>30 segundos</strong> por rodada.<br>
+    🎧 Ouça os sons e ganhe pontos a cada acerto!<br><br>
+    Boa sorte, explorador!
+  </p>
+  <button onclick="iniciarJogo()">▶️ Iniciar Jogo</button>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+function voltarPagina() { window.history.back(); }
+
+const bipSom = document.getElementById('bip-som');
+const tempoFimSom = document.getElementById('tempo-fim-som');
+const vitoriaSom = document.getElementById('vitoria-som');
+
+const map = L.map('map').setView([30.0, 35.3], 6);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+
+// === RUÍNAS ===
+const ruinas = [
+  { nome: "Monte Horebe", lat: 29.99, lng: 35.65, ano: 1400, era: "a.C.", dica: "Montanha sagrada do encontro com Deus" },
+  { nome: "Jericó", lat: 31.8667, lng: 35.4500, ano: 8000, era: "a.C.", dica: "Muralhas caíram com trombetas" },
+  { nome: "Petra", lat: 30.3285, lng: 35.4444, ano: 312, era: "a.C.", dica: "Cidade rosa esculpida em rocha" },
+  { nome: "Monte Carmelo", lat: 32.9246, lng: 35.0836, ano: 900, era: "a.C.", dica: "Profetas de Baal" },
+  { nome: "Monte das Oliveiras", lat: 31.778, lng: 35.243, ano: 33, era: "d.C.", dica: "Jesus suou gotas de sangue" },
+  { nome: "Vale do Armagedom", lat: 32.583, lng: 35.600, ano: 0, era: "d.C.", dica: "Batalha final do Apocalipse" },
+  { nome: "Lugar de Débora", lat: 32.333, lng: 35.300, ano: 1100, era: "a.C.", dica: "Onde Débora pregava" },
+  { nome: "Última viagem de Paulo", lat: 32.5, lng: 34.9, ano: 60, era: "d.C.", dica: "Viagem final de Paulo" },
+  { nome: "Cidade do pai de Abraão", lat: 32.500, lng: 44.400, ano: 2000, era: "a.C.", dica: "Local de residência do pai de Abraão" },
+  { nome: "Saída da rainha de Sabá", lat: 15.500, lng: 38.500, ano: 950, era: "a.C.", dica: "Viagem da rainha de Sabá" }
+];
+
+// === MARCADORES E VARIÁVEIS ===
+const circulos = [];
+ruinas.forEach(r => {
+  const c = L.circle([r.lat, r.lng], { radius: 500, color: '#888', fillOpacity: 0.3 }).addTo(map);
+  circulos.push({ id: r.nome, circle: c });
+  const etiqueta = L.divIcon({ className: 'etiqueta', html: r.nome, iconAnchor: [0,0] });
+  L.marker([r.lat, r.lng], { icon: etiqueta, interactive: false }).addTo(map);
+});
+map.fitBounds(ruinas.map(r => [r.lat, r.lng]), { padding: [50,50] });
+
+let indiceRuina = 0;
+let escolhido = null;
+let marcador = null;
+let tempo = 30;
+let timer = null;
+let jogoAtivo = false;
+let pontos = 0;
+let recorde = parseInt(localStorage.getItem('recordeRuinas')) || 0;
+document.getElementById('recorde').textContent = recorde;
+
+// === FUNÇÕES DE JOGO ===
+function escolherRuina() {
+  if (indiceRuina < ruinas.length) {
+    escolhido = ruinas[indiceRuina];
+    document.getElementById('dica-texto').textContent = escolhido.dica;
+  } else {
+    jogoAtivo = false;
+    clearInterval(timer);
+    document.getElementById('dica-texto').textContent = "🏁 Parabéns! Você encontrou todas as ruínas!";
+  }
+}
+
+function direcaoDoClick(ruina, clique) {
+  const latDif = ruina.lat - clique.lat;
+  const lngDif = ruina.lng - clique.lng;
+  let dir = [];
+  if (latDif > 0.1) dir.push("Mais ao norte");
+  else if (latDif < -0.1) dir.push("Mais ao sul");
+  if (lngDif > 0.1) dir.push("Mais a leste");
+  else if (lngDif < -0.1) dir.push("Mais a oeste");
+  return dir.join(" e ") || "Muito próximo!";
+}
+
+function iniciarTimer() {
+  clearInterval(timer);
+  document.getElementById('tempo').textContent = `${tempo}s`;
+
+  timer = setInterval(() => {
+    if (!jogoAtivo) { clearInterval(timer); return; }
+    tempo--;
+    document.getElementById('tempo').textContent = `${tempo}s`;
+    if (tempo > 0) { try { bipSom.play(); } catch(e) {} }
+    if (tempo <= 0) {
+      clearInterval(timer);
+      jogoAtivo = false;
+      try { tempoFimSom.play(); } catch(e) {}
+      const barra = document.getElementById('info-bar');
+      barra.style.background = "#c0392b";
+      document.getElementById('dica-texto').textContent = `⏰ Tempo esgotado! Era ${escolhido ? escolhido.nome : 'a ruína'}.`;
+      setTimeout(() => { barra.style.background = "#2c3e50"; }, 3000);
+    }
+  }, 1000);
+}
+
+function iniciarRodada(indice = 0) {
+  if (marcador) { map.removeLayer(marcador); marcador = null; }
+  indiceRuina = indice;
+  circulos.forEach(c => c.circle.setStyle({ color: '#888', fillOpacity: 0.3 }));
+  tempo = 30;
+  document.getElementById('tempo').textContent = `${tempo}s`;
+  jogoAtivo = true;
+  escolherRuina();
+  iniciarTimer();
+}
+
+map.on('click', e => {
+  if (!jogoAtivo || !escolhido) return;
+
+  const distancia = map.distance(e.latlng, escolhido);
+  const limiteAcerto = 15000;
+
+  if (distancia <= limiteAcerto) {
+    clearInterval(timer);
+    jogoAtivo = false;
+    try { vitoriaSom.play(); } catch(e) {}
+
+    if (marcador) map.removeLayer(marcador);
+    marcador = L.marker([escolhido.lat, escolhido.lng]).addTo(map)
+      .bindPopup(`🎉 Parabéns! Você encontrou ${escolhido.nome}!<br>Ano: ${escolhido.ano} ${escolhido.era}`)
+      .openPopup();
+
+    const cobj = circulos.find(c => c.id === escolhido.nome);
+    if (cobj) cobj.circle.setStyle({ color: '#27ae60', fillOpacity: 0.5 });
+
+    // Pontos proporcional ao tempo restante
+    const pontosBase = 10;
+    const bonusTempo = Math.max(0, Math.round(tempo));
+    pontos += pontosBase + bonusTempo;
+
+    document.getElementById('pontos').textContent = pontos;
+
+    if (pontos > recorde) {
+      recorde = pontos;
+      localStorage.setItem('recordeRuinas', recorde);
+      document.getElementById('recorde').textContent = recorde;
+    }
+
+    indiceRuina++;
+
+    if (indiceRuina >= ruinas.length) {
+      document.getElementById('dica-texto').textContent = "🏁 Parabéns! Você encontrou todas as ruínas!";
+      clearInterval(timer);
+      jogoAtivo = false;
+      return;
+    }
+
+    document.getElementById('dica-texto').textContent = "✅ Acertou! Próxima ruína...";
+    setTimeout(() => { iniciarRodada(indiceRuina); }, 2000);
+
+  } else {
+    const dica = direcaoDoClick(escolhido, e.latlng);
+    document.getElementById('dica-texto').textContent = `${escolhido.dica} — ${dica}`;
+  }
+});
+
+// === BOTÕES ===
+function zerarRecorde() {
+  localStorage.removeItem('recordeRuinas');
+  recorde = 0;
+  pontos = 0;
+  document.getElementById('recorde').textContent = 0;
+  document.getElementById('pontos').textContent = 0;
+  alert("Recorde zerado!");
+}
+
+function reiniciarJogo() {
+  pontos = 0;
+  document.getElementById('pontos').textContent = 0;
+  iniciarRodada(0); // volta para primeira ruína
+}
+
+function iniciarJogo() {
+  document.getElementById('tela-inicial').style.display = 'none';
+  map.invalidateSize();
+  pontos = 0;
+  document.getElementById('pontos').textContent = 0;
+  iniciarRodada(0);
+}
+</script>
+</body>
+</html>
