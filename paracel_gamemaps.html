@@ -8,24 +8,18 @@
 <style>
   body { margin:0; padding:0; font-family: Arial; background:#ecf0f1; }
 
- /* TELA DE INSTRUÇÕES */
-#tela-inicial {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(44, 62, 80, 0.97);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
-  z-index: 2000;
-  box-sizing: border-box;
-  overflow-y: auto;       /* rola verticalmente se o texto for longo */
-  overflow-x: hidden;     /* impede corte lateral no celular */
+@media (max-width: 480px) {
+  #tela-inicial {
+    width: 100vw;           /* largura exata da tela */
+    height: 100vh;          /* altura exata da tela */
+    padding: 15px;          /* reduz o padding para caber melhor */
+    box-sizing: border-box; /* garante que o padding não aumente a largura */
+    overflow-x: hidden;     /* impede corte lateral */
+  }
+
+  #tela-inicial h1 { font-size: 1.6em; }
+  #tela-inicial p { font-size: 1em; }
+  #tela-inicial button { font-size: 1.1em; padding: 10px 20px; }
 }
 
 #tela-inicial h1 {
@@ -310,4 +304,5 @@ function iniciarJogo() {
 </script>
 
 </body>
+
 </html>
