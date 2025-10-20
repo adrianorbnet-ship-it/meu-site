@@ -47,37 +47,28 @@
     max-width: 900px;
   }
 
- 
-  
-  @media (max-width: 768px) {
-  #container-jogo {
-    flex-direction: column; /* coloca o mapa em cima e a explicação embaixo */
-    align-items: center;
-  }
-
-  #caixa-explicacao {
-    width: 90%;
-    margin: 15px auto 0;
-    order: 2;
-  }
-
   #mapa {
-    width: 95vw;
+    width: 90vw;
     max-width: 400px;
-    height: auto;
+    aspect-ratio: 1;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 5px;
   }
 
   .celula {
-    aspect-ratio: 1 / 1;
+    background: #d9c199;
+    border: 1px solid #bfa16d;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    position: relative;
+    perspective: 600px;
+    border-radius: 5px;
   }
-}
-  
-  
-  
-  
-  
-  
-
 
   .celula .face {
     position: absolute;
@@ -402,9 +393,4 @@ iniciarJogo();
 </script>
 
 </body>
-
 </html>
-
-
-
-
