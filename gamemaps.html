@@ -8,22 +8,25 @@
 <style>
   body { margin:0; padding:0; font-family: Arial; background:#ecf0f1; }
 
-  /* TELA DE INSTRUÇÕES */
-  #tela-inicial {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(44, 62, 80, 0.97);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 30px;
-    z-index: 2000;
-  }
-
+   /* TELA DE INSTRUÇÕES */
+#tela-inicial {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(44, 62, 80, 0.97);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  z-index: 2000;
+  box-sizing: border-box;
+  overflow-y: auto;       /* rola verticalmente se o texto for longo */
+  overflow-x: hidden;     /* impede corte lateral no celular */
+}
   #tela-inicial h1 { font-size: 2.5em; margin-bottom: 20px; }
   #tela-inicial p { font-size: 1.2em; max-width: 700px; line-height: 1.6; margin-bottom: 25px; }
 
@@ -258,4 +261,5 @@ function iniciarJogo() {
 </script>
 
 </body>
+
 </html>
