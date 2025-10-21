@@ -172,6 +172,31 @@
     #cabecalho p { font-size: 0.9em; }
     .botao { font-size: 0.9em; padding: 8px 16px; }
   }
+
+
+
+
+
+
+ /* Modo tela cheia */
+  .fullscreen header,
+  .fullscreen footer {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 </style>
 </head>
 <body>
@@ -204,7 +229,22 @@
 <audio id="som-acerto" src="acerto.mp3" preload="auto"></audio>
 
 <script>
-const mapa = document.getElementById("mapa");
+
+  
+
+ // Detectar duplo clique / toque duplo
+  let lastTouch = 0;
+  document.addEventListener("touchend", e => {
+    const now = new Date().getTime();
+    if (now - lastTouch < 300) { // toque duplo
+      alternarFullscreen();
+    }
+    lastTouch = now;
+  });
+  
+  
+  
+  const mapa = document.getElementById("mapa");
 const tempoEl = document.getElementById("tempo");
 const pontosEl = document.getElementById("pontos");
 const resetBtn = document.getElementById("reset");
@@ -394,6 +434,7 @@ iniciarJogo();
 
 </body>
 </html>
+
 
 
 
