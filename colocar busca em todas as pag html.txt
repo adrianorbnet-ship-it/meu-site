@@ -1,0 +1,84 @@
+1️⃣ O que precisa estar em todas as páginas
+
+Se você quer que o campo de busca apareça em todas as páginas (ex: arqueologia.html, astronomia.html, etc.),
+então só o bloco do campo de busca e o script da função precisam ser incluídos.
+
+Ou seja, essas duas partes 👇
+
+🔹 Parte 1 — Campo de busca (coloque logo abaixo do <header>):
+<div id="busca-container">
+  <input type="text" id="busca" placeholder="Buscar palavra..." onkeyup="buscar()">
+</div>
+
+<div id="resultados"></div>
+
+
+(você pode colocar acima ou abaixo do <nav>, como preferir)
+
+🔹 Parte 2 — Função JavaScript (no final da página, antes de </body>)
+<script>
+function buscar() {
+  const termo = document.getElementById("busca").value.toLowerCase();
+  const resultadosDiv = document.getElementById("resultados");
+  resultadosDiv.innerHTML = "";
+
+  if (termo.length < 2) {
+    resultadosDiv.innerHTML = "<p style='text-align:center;'>Digite ao menos 2 letras...</p>";
+    return;
+  }
+
+  fetch("search.json")
+    .then(res => res.json())
+    .then(dados => {
+      const resultados = dados.filter(p =>
+        p.titulo.toLowerCase().includes(termo) ||
+        p.conteudo.toLowerCase().includes(termo)
+      );
+
+      if (resultados.length === 0) {
+        resultadosDiv.innerHTML = "<p style='text-align:center;'>Nenhum resultado encontrado.</p>";
+      } else {
+        resultadosDiv.innerHTML = resultados.map(p => `
+          <div class="resultado-item">
+            <a href="${p.link}">${p.titulo}</a>
+            <p>${p.conteudo.substring(0,150)}...</p>
+          </div>
+        `).join("");
+      }
+    })
+    .catch(() => {
+      resultadosDiv.innerHTML = "<p>Erro ao carregar resultados.</p>";
+    });
+}
+</script>
+
+🧩 2️⃣ O que só o index.html precisa ter
+
+O estilo CSS completo (#busca-container, .resultado-item, etc.)
+
+O título, data, imagem principal, etc.
+
+Esses detalhes são exclusivos da página inicial.
+
+💡 Dica profissional
+
+Para não precisar copiar em todas as páginas no futuro,
+você pode deixar o código de busca em um arquivo externo JavaScript, exemplo:
+
+📁 estrutura:
+
+index.html
+arqueologia.html
+astronomia.html
+fakes.html
+busca.js
+search.json
+
+
+No final de cada página, você colocaria só:
+
+<script src="busca.js"></script>
+
+
+👉 Assim, se quiser mudar o estilo ou melhorar a busca,
+basta editar apenas um arquivo (busca.js), e todas as páginas usarão automaticamente.

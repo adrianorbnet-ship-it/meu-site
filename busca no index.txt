@@ -1,0 +1,39 @@
+<div style="text-align:center; margin: 15px 0;">
+  <input type="text" id="busca" placeholder="Buscar palavra..." 
+         style="padding: 10px; width: 250px; border-radius: 5px; border: 1px solid #ccc;">
+  <button onclick="buscar()" 
+          style="padding: 10px 15px; background-color: #1abc9c; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    🔍 Buscar
+  </button>
+</div>
+
+<div id="resultados" style="max-width: 600px; margin: 20px auto; text-align: left;"></div>
+
+<script>
+function buscar() {
+  const termo = document.getElementById("busca").value.toLowerCase();
+  const resultadosDiv = document.getElementById("resultados");
+  resultadosDiv.innerHTML = "🔎 Procurando...";
+
+  fetch("search.json")
+    .then(res => res.json())
+    .then(dados => {
+      const resultados = dados.filter(p => 
+        p.titulo.toLowerCase().includes(termo) ||
+        p.conteudo.toLowerCase().includes(termo)
+      );
+
+      if (resultados.length === 0) {
+        resultadosDiv.innerHTML = "<p>Nenhum resultado encontrado.</p>";
+      } else {
+        resultadosDiv.innerHTML = resultados.map(p => `
+          <div style="background:#fff; margin-bottom:10px; padding:10px; border-radius:5px;">
+            <a href="${p.link}" style="color:#1abc9c; font-weight:bold;">${p.titulo}</a>
+            <p>${p.conteudo.substring(0,120)}...</p>
+          </div>
+        `).join("");
+      }
+    })
+    .catch(() => resultadosDiv.innerHTML = "Erro ao carregar busca.");
+}
+</script>

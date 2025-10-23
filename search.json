@@ -1,0 +1,21 @@
+[
+  {
+    "titulo": "A Capa de Elias",
+    "conteudo": "A Bíblia narra que o profeta Elias usava uma capa simbólica usada em momentos marcantes como o Monte Horebe e a sucessão de Eliseu.",
+    "link": "index.html"
+  },
+  {
+    "titulo": "Arqueologia Bíblica",
+    "conteudo": "A arqueologia bíblica estuda vestígios materiais relacionados aos povos, culturas e lugares mencionados na Bíblia.",
+    "link": "arqueologia_out_2025.html"
+  },
+  {
+    "titulo": "Astronomia Bíblica",
+    "conteudo": "Estudo das referências astronômicas encontradas nas Escrituras e sua relação com o tempo antigo.",
+    "link": "astronomia_out_2025.html"
+  },
+  {
+    "titulo": "Mitos e Fakes Bíblicos",
+    "conteudo": "Desmistificando histórias e interpretações incorretas da Bíblia.",
+    "link": "fakes_out_2025.html"
+  }
