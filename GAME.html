@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro de Jogos Arqueológicos</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      color: #4b3a1a;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-image: url("fundomemoria.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    header {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      border-radius: 0 0 20px 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2em;
+      color: #3b2b0d;
+    }
+
+    p {
+      margin-top: 5px;
+      color: #5e4b2c;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start; /* não força centralização vertical */
+      padding: 40px 0;
+    }
+
+    .botao {
+      display: block;
+      width: 250px;
+      margin: 15px;
+      padding: 15px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: white;
+      background-color: #7b5e27;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+    }
+
+    .botao:hover {
+      background-color: #a6823e;
+      transform: scale(1.05);
+    }
+
+    .botao-voltar {
+      width: 180px;
+      background-color: #5a3e1b;
+      margin-top: 10px;
+    }
+
+    .botao-voltar:hover {
+      background-color: #7c5731;
+    }
+
+    footer {
+      padding: 10px;
+      background: rgba(255,255,255,0.7);
+      font-size: 0.9em;
+      border-radius: 20px 20px 0 0;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Centro de Jogos Arqueológicos</h1>
+    <p>Escolha um jogo para começar sua aventura!</p>
+  </header>
+
+  <main>
+    <button class="botao" onclick="window.location.href='gamemaps.html'">🗺️ Jogo dos Mapas</button>
+    <button class="botao" onclick="window.location.href='memoria.html'">🧠 Jogo da Memória</button>
+    <button class="botao botao-voltar" onclick="voltarPagina()">⬅️ Voltar</button>
+  </main>
+
+  <footer>
+    © 2025 Centro de Jogos Bíblicos — Desenvolvido com propósito e curiosidade histórica.
+  </footer>
+
+  <script>
+    function voltarPagina() {
+      window.history.back();
+    }
+  </script>
+
+</body>
+</html>

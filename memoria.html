@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centro de Jogos Arqueológicos</title>
+<style>
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(to bottom, #f3f0e6, #e0d6b8);
+    text-align: center;
+    color: #4b3a1a;
+  }
+
+  header {
+    background-color: #7a5c2e;
+    color: white;
+    padding: 20px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 2em;
+  }
+
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 40px 20px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    width: 250px;
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  }
+
+  .card img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+  }
+
+  .card h2 {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #5a3e1b;
+  }
+
+  footer {
+    background: #7a5c2e;
+    color: white;
+    padding: 12px;
+    font-size: 0.9em;
+  }
+
+  /* === Responsividade para tablets === */
+  @media (max-width: 900px) {
+    .card {
+      width: 200px;
+      height: 220px;
+    }
+    .card img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  /* === Responsivo para celulares === */
+  @media (max-width: 600px) {
+    header {
+      padding: 15px;
+    }
+
+    h1 {
+      font-size: 1.6em;
+    }
+
+    main {
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card {
+      width: 85%;
+      height: auto;
+      padding: 20px;
+    }
+
+    .card img {
+      width: 100px;
+      height: 100px;
+    }
+
+    .card h2 {
+      font-size: 1.1em;
+      margin-top: 8px;
+    }
+
+    footer {
+      font-size: 0.85em;
+    }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Centro de Jogos Arqueológicos</h1>
+  </header>
+
+  <main>
+    <div class="card" onclick="window.location.href='memoria.html'">
+      <img src="memoria.png" alt="Jogo da Memória">
+      <h2>Jogo da Memória</h2>
+    </div>
+
+    <div class="card" onclick="window.location.href='mapas.html'">
+      <img src="mapas.png" alt="Jogo dos Mapas">
+      <h2>Jogo dos Mapas</h2>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Centro de Jogos Arqueológicos
+  </footer>
+</body>
+</html>

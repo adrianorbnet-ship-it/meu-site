@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Zerar Todos os Records - Teste</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #f0f0f0;
+      padding: 50px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Teste de Limpeza de Records</h1>
+  <button id="zerar-tudo">Zerar Todos os Records</button>
+
+  <script>
+    document.getElementById('zerar-tudo').addEventListener('click', () => {
+      if (!confirm('Tem certeza que quer zerar todos os records?')) return;
+
+      // Limpa todas as chaves do localStorage
+      localStorage.clear();
+
+      alert('Todos os records foram zerados!');
+      console.log('localStorage após limpar:', Object.keys(localStorage));
+    });
+  </script>
+</body>
+</html>
